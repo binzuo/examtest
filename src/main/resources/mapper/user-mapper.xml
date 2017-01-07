@@ -25,4 +25,9 @@
         DELETE FROM exam.user
         WHERE user.id = #{id}
     </delete>
+    <select id="queryAllUser" resultType="user">
+        SELECT *
+        FROM exam.user
+        WHERE role = 'user'
+    </select>
 </mapper>
