@@ -1,7 +1,6 @@
 package com.example.dao;
 
 import com.example.util.Pagination;
-
 import java.io.Serializable;
 import java.util.List;
 
