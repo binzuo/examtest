@@ -70,7 +70,7 @@
         FROM exam.salary
         WHERE salary.id = #{id}
     </select>
-    <resultMap id="map_queryUserSalaries" type="user">
+    <!--<resultMap id="map_queryUserSalaries" type="user">
         <id property="id" column="id"/>
         <result property="username" column="username"/>
         <collection property="salaries" ofType="salary">
@@ -81,11 +81,23 @@
             <result property="insurance" column="insurance"/>
             <result property="gongJiJin" column="gongJiJin"/>
         </collection>
+    </resultMap>-->
+    <resultMap id="map_queryUserSalaries" type="salary">
+        <id property="id" column="id"/>
+        <result property="month" column="month"/>
+        <result property="basic" column="basic"/>
+        <result property="allowance" column="allowance"/>
+        <result property="reward" column="reward"/>
+        <result property="insurance" column="insurance"/>
+        <result property="gongJiJin" column="gongJiJin"/>
+        <association property="user" javaType="user">
+            <result property="username" column="username"/>
+        </association>
     </resultMap>
     <select id="queryUserSalaries" resultMap="map_queryUserSalaries">
         SELECT
-        u.id,
         u.username,
+        s.id,
         s.month,
         s.basic,
         s.allowance,
@@ -96,8 +108,8 @@
     </select>
     <select id="queryUserSalariesByUserId" parameterType="int" resultMap="map_queryUserSalaries">
         SELECT
-        u.id,
         u.username,
+        s.id,
         s.month,
         s.basic,
         s.allowance,
@@ -106,5 +118,26 @@
         s.gongJiJin
         FROM exam.user u INNER JOIN exam.salary s ON u.id = s.userId
         WHERE u.id = #{id}
+    </select>
+    <select id="queryUserSalariesByUsernameOrTime" parameterType="hashmap" resultMap="map_queryUserSalaries">
+        SELECT
+        u.username,
+        s.id,
+        s.month,
+        s.basic,
+        s.allowance,
+        s.reward,
+        s.insurance,
+        s.gongJiJin
+        FROM exam.user u INNER JOIN exam.salary s ON u.id = s.userId
+        # MyBatis Dynamic SQL
+        <where>
+            <if test="username != null">
+                u.username = #{username}
+            </if>
+            <if test="month != null">
+                AND s.month = #{month}
+            </if>
+        </where>
     </select>
 </mapper>

@@ -20,6 +20,6 @@ public class User extends BaseModel {
     private String username;
     private String password;
     private String role;
-    private List<Salary> salaries;//第一步：模型类，一对多的关系，在一里面写多。
+    //private List<Salary> salaries;//第一步：模型类，一对多的关系，在一里面写多。
     //添加多端。
 }

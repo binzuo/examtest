@@ -20,4 +20,5 @@ public class Salary extends BaseModel {
     private double gongJiJin;
     private double money;
     private int userId;
+    private User user;
 }
